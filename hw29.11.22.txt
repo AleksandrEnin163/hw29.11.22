@@ -1,0 +1,45 @@
+function hanoi(n, from, to, aux) {
+  let stack = [];
+  let count = 0;
+
+  // помещаем все диски на левый стержень
+  for (let i = n; i >= 1; i--) {
+    stack.push(i);
+  }
+
+  while (stack.length > 0) {
+    let disk = stack[stack.length - 1];
+    if (disk === 1) {
+      // перемещаем диск на правый стержень
+      stack.pop();
+      count++;
+      console.log(`Move disk ${disk} from ${from} to ${to}`);
+    } else if (stack.length >= 2) {
+      // перемещаем диск на вспомогательный стержень
+      let nextDisk = stack[stack.length - 2];
+      if (nextDisk !== disk - 1) {
+        stack.push(disk - 1);
+      } else {
+        stack.pop();
+        count++;
+        console.log(`Move disk ${disk} from ${from} to ${to}`);
+      }
+    } else {
+      // перемещаем диск на вспомогательный стержень
+      stack.push(disk - 1);
+    }
+
+    // меняем стержни местами
+    let temp = from;
+    from = aux;
+    aux = temp;
+
+    if (count >= Math.pow(2, n) - 1) {
+      break;
+    }
+  }
+}
+
+// пример использования
+hanoi(3, 'left', 'right', 'aux');
+
